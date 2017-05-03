@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/B747 Scene.unity
+  isLoaded: 1
+  isActive: 1
