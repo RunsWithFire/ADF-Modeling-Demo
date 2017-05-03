@@ -22,7 +22,10 @@ public class cameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        freeRotate();
+        if (Input.GetMouseButtonDown(0))
+        {
+            castToMeshCollider();
+        }
     }
 
     // Rotate freely in place at a fixed speed
@@ -59,6 +62,17 @@ public class cameraController : MonoBehaviour {
             }
             mainCamera.transform.Rotate(Vector3.up, mouseMovement.x * movementSpeed);
             mainCamera.transform.Rotate(Vector3.left, mouseMovement.y * movementSpeed);
+        }
+    }
+
+    //Raycast to Mesh Colliders
+    public void castToMeshCollider()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            print(hit.point);
         }
     }
 }
