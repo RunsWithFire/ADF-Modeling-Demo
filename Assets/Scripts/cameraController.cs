@@ -14,6 +14,7 @@ public class cameraController : MonoBehaviour {
     public Vector3 cameraPosition;
     public Quaternion cameraRotation;
     public Vector3 mouseMovement;
+    public GameObject identifier;
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +25,7 @@ public class cameraController : MonoBehaviour {
 	void Update () {
         if (Input.GetMouseButtonDown(0))
         {
-            castToMeshCollider();
+            identifier.transform.position = castToMeshCollider();
         }
     }
 
@@ -66,13 +67,15 @@ public class cameraController : MonoBehaviour {
     }
 
     //Raycast to Mesh Colliders
-    public void castToMeshCollider()
+    public Vector3 castToMeshCollider()
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            print(hit.point);
+            return hit.point;
         }
+
+        return identifier.transform.position;
     }
 }
