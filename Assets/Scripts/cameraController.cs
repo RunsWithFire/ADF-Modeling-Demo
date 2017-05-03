@@ -5,16 +5,23 @@ using UnityEngine;
 public class cameraController : MonoBehaviour {
 
     public GameObject mainCamera;
-    public float movementSpeed = 0.01f;
-    public Vector3 mouseOrigin;
-    public float xMotion;
-    public float yMotion;
-
-    //debug values
-    public Vector3 cameraPosition;
-    public Quaternion cameraRotation;
-    public Vector3 mouseMovement;
     public GameObject identifier;
+
+    //freeRotate
+    public float movementSpeed = 0.01f;
+    Vector3 mouseOrigin;
+    float xMotion;
+    float yMotion;
+    Vector3 mouseMovement;
+
+    //castToMeshCollider
+    Vector3 oldHitPoint = new Vector3(0, 0, 0);
+
+    //focusOnPoint
+    Vector3 clickLocation = new Vector3(0, -10, 0);
+    Vector3 direction;
+    Quaternion lookRotation;
+    public float rotationSpeed = 2.0f;    
 
 	// Use this for initialization
 	void Start () {
@@ -23,18 +30,12 @@ public class cameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetMouseButtonDown(0))
-        {
-            identifier.transform.position = castToMeshCollider();
-        }
+        rightClickFocus();
     }
 
     // Rotate freely in place at a fixed speed
     public void freeRotate()
     {
-        cameraPosition = mainCamera.transform.position;
-        cameraRotation = mainCamera.transform.rotation;
-
         if (Input.GetMouseButtonDown(1))
         {
             mouseOrigin = Input.mousePosition;
@@ -61,8 +62,8 @@ public class cameraController : MonoBehaviour {
             {
                 yMotion = -1.0f;
             }
-            mainCamera.transform.Rotate(Vector3.up, mouseMovement.x * movementSpeed);
-            mainCamera.transform.Rotate(Vector3.left, mouseMovement.y * movementSpeed);
+            mainCamera.transform.Rotate(Vector3.up, xMotion * movementSpeed);
+            mainCamera.transform.Rotate(Vector3.left, yMotion * movementSpeed);
         }
     }
 
@@ -73,9 +74,28 @@ public class cameraController : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
+            oldHitPoint = hit.point;
             return hit.point;
         }
 
-        return identifier.transform.position;
+        return oldHitPoint;
+    }
+
+    //Hold Right Click to Move Camera to Focus
+    public void rightClickFocus()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            clickLocation = castToMeshCollider();
+        }
+        focusOnPoint(clickLocation);
+    }
+
+    //Move Camera to focus on Point
+    public void focusOnPoint(Vector3 point)
+    {
+        direction = (point - mainCamera.transform.position).normalized;
+        lookRotation = Quaternion.LookRotation(direction);
+        mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 }
