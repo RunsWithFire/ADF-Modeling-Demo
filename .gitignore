@@ -49,3 +49,5 @@ Temp/UnityLockfile
 Temp/UnityTempFile-c0897f964e065744bb52e8630fd9290a
 *.cache
 Temp/__Backupscenes/0.backup
+*.log
+Library/shadercompiler-UnityShaderCompiler.exe0.log
