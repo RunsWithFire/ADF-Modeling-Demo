@@ -5,10 +5,11 @@ using UnityEngine;
 public class cameraController : MonoBehaviour {
 
     public GameObject mainCamera;
+    public GameObject aircraft;
     public GameObject identifier;
 
     //freeRotate
-    public float movementSpeed = 0.01f;
+    public float movementSpeed = 1.0f;
     Vector3 mouseOrigin;
     float xMotion;
     float yMotion;
@@ -21,7 +22,10 @@ public class cameraController : MonoBehaviour {
     Vector3 clickLocation = new Vector3(0, -10, 0);
     Vector3 direction;
     Quaternion lookRotation;
-    public float rotationSpeed = 2.0f;    
+    public float camRotationSpeed = 2.0f;
+
+    //leftClickRotate
+    public float objectRotationSpeed = 2.5f; 
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +35,7 @@ public class cameraController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         rightClickFocus();
+        leftClickRotate();
     }
 
     // Rotate freely in place at a fixed speed
@@ -96,6 +101,21 @@ public class cameraController : MonoBehaviour {
     {
         direction = (point - mainCamera.transform.position).normalized;
         lookRotation = Quaternion.LookRotation(direction);
-        mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, lookRotation, Time.deltaTime * camRotationSpeed);
     }
+
+    //Rotate Object with Left Click Hold
+    public void leftClickRotate()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            float rotX = Input.GetAxis("Mouse X") * objectRotationSpeed * Mathf.Deg2Rad;
+            float rotY = Input.GetAxis("Mouse Y") * objectRotationSpeed * Mathf.Deg2Rad;
+
+            aircraft.transform.RotateAround(Vector3.up, -rotX);
+            aircraft.transform.RotateAround(Vector3.right, -rotY);
+        }
+    }
+
+    
 }
