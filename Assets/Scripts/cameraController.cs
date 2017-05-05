@@ -24,7 +24,10 @@ public class cameraController : MonoBehaviour {
     public float camRotationSpeed = 2.0f;
 
     //leftClickRotate
-    public float objectRotationSpeed = 2.5f; 
+    public float objectRotationSpeed = 2.5f;
+
+    //mouseWheelZoom
+    public Vector3 focalPoint;
 
 	// Use this for initialization
 	void Start () {
@@ -35,6 +38,7 @@ public class cameraController : MonoBehaviour {
 	void Update () {
         rightClickFocus();
         leftClickRotate();
+        mouseWheelZoom();
     }
 
     // Rotate freely in place at a fixed speed
@@ -116,5 +120,9 @@ public class cameraController : MonoBehaviour {
         }
     }
 
-    
+    //Zoom In and Out (within parameters) towards Focal Point
+    public void mouseWheelZoom()
+    {
+        focalPoint = clickLocation;
+    }
 }
