@@ -6,7 +6,6 @@ public class cameraController : MonoBehaviour {
 
     public GameObject mainCamera;
     public GameObject aircraft;
-    public GameObject identifier;
 
     //freeRotate
     public float movementSpeed = 1.0f;
