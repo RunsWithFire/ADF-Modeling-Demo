@@ -1,4 +1,7 @@
 sceneSetups:
-- path: Assets/Scenes/MainMenu.unity
+- path: Assets/Scenes/AircraftModelScene.unity
   isLoaded: 1
   isActive: 1
+- path: Assets/Scenes/MainMenu.unity
+  isLoaded: 0
+  isActive: 0
