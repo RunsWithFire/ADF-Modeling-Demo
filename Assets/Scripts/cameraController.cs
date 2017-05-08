@@ -6,6 +6,7 @@ public class cameraController : MonoBehaviour {
 
     public GameObject mainCamera;
     public GameObject aircraft;
+    public GameObject indicator;
 
     //freeRotate
     public float movementSpeed = 1.0f;
@@ -15,7 +16,7 @@ public class cameraController : MonoBehaviour {
     Vector3 mouseMovement;
 
     //castToMeshCollider
-    Vector3 oldHitPoint = new Vector3(0, 0, 0);
+    Vector3 oldHitPoint = new Vector3(0, -10, 0);
 
     //focusOnPoint
     Vector3 clickLocation = new Vector3(0, -10, 0);
@@ -27,7 +28,16 @@ public class cameraController : MonoBehaviour {
     public float objectRotationSpeed = 2.5f;
 
     //mouseWheelZoom
-    public Vector3 focalPoint;
+    Vector3 focalPoint;
+
+    //getBounds
+    public float maximumMultiplyer = 1.0f;
+    public float minimumMultiplyer = 15.0f;
+    public float zoomSpeed = 3.5f;
+    public Vector3 minimumLocation;
+    public Vector3 maximumLocation;
+    
+    // ----------------------------------------------------------------------------- //
 
 	// Use this for initialization
 	void Start () {
@@ -123,6 +133,36 @@ public class cameraController : MonoBehaviour {
     //Zoom In and Out (within parameters) towards Focal Point
     public void mouseWheelZoom()
     {
-        focalPoint = clickLocation;
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f) //Roll up
+        {
+            focalPoint = clickLocation;
+            getBounds();
+
+            if (Vector3.Magnitude(mainCamera.transform.position - focalPoint) > Vector3.Magnitude(minimumLocation - focalPoint))
+            {
+                mainCamera.transform.Translate(Vector3.forward * zoomSpeed);
+            }
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f) //Roll down
+        {
+            focalPoint = clickLocation;
+            getBounds();
+
+            if (Vector3.Magnitude(mainCamera.transform.position - focalPoint) < Vector3.Magnitude(maximumLocation - focalPoint))
+            {
+                mainCamera.transform.Translate(Vector3.back * zoomSpeed);
+            }
+        }
+    }
+
+    private void getBounds()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit))
+        {
+            minimumLocation = minimumMultiplyer * Vector3.Normalize(mainCamera.transform.position - hit.point) + hit.point;
+            maximumLocation = -maximumMultiplyer * Vector3.Normalize(hit.point - mainCamera.transform.position) + mainCamera.transform.position;
+        }
     }
 }
