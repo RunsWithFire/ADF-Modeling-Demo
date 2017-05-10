@@ -6,7 +6,6 @@ public class cameraController : MonoBehaviour {
 
     public GameObject mainCamera;
     public GameObject aircraft;
-    public GameObject indicator;
 
     //freeRotate
     public float movementSpeed = 1.0f;
@@ -34,8 +33,8 @@ public class cameraController : MonoBehaviour {
     public float maximumMultiplyer = 1.0f;
     public float minimumMultiplyer = 15.0f;
     public float zoomSpeed = 3.5f;
-    public Vector3 minimumLocation;
-    public Vector3 maximumLocation;
+    Vector3 minimumLocation;
+    Vector3 maximumLocation;
     
     // ----------------------------------------------------------------------------- //
 
