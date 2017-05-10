@@ -27,7 +27,7 @@ public class NewDamageController : MonoBehaviour {
 		anim.enabled = true;
 		//play the Slidein animation
 		anim.Play("EnterDamageSlideIn");
-	
+		anim.SetTrigger ("EnterDamageSlideIn");
 
 		//freeze the timescale
 		Time.timeScale = 0;

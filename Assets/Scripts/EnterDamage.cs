@@ -5,26 +5,17 @@ using UnityEngine.UI;
 
 public class EnterDamage : MonoBehaviour {
 
+	private string NEW_DAMAGE_LABEL = "New Damage";
+	private string CLOSE_LABEL = "Close";
 	public GameObject theCanvas;
 
 
 	public void onClick(){
-		if (theCanvas.activeSelf) {
-			theCanvas.SetActive(false);
-			Text[] ButtonsText = GetComponentsInChildren<UnityEngine.UI.Text>();
-			ButtonsText[0].text = "New Damage";
-
-
+		Text[] ButtonsText = GetComponentsInChildren<UnityEngine.UI.Text>();
+		if (ButtonsText[0].text == CLOSE_LABEL) {
+			ButtonsText[0].text = NEW_DAMAGE_LABEL;
 		} else {
-			
-			theCanvas.SetActive(true);
-			Text[] ButtonsText = GetComponentsInChildren<UnityEngine.UI.Text>();
-			ButtonsText[0].text = "Close";
-
+			ButtonsText[0].text = CLOSE_LABEL;
 		}
-
-
 	}
-
-
 }
