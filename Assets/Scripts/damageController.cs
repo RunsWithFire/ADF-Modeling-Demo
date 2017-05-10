@@ -5,10 +5,7 @@ using UnityEngine;
 public class damageController : MonoBehaviour {
 
     public GameObject stateMachine;
-
-    public string damageType;
-    public string height;
-    public string width;
+    public GameObject damage;
 
 	// Use this for initialization
 	void Start () {
@@ -25,7 +22,7 @@ public class damageController : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.transform.name.Equals("Damage"))
+                if (hit.transform.name.Contains("Damage"))
                 {
                     stateMachine.GetComponent<stateMachineController>().state = "ViewDamage";
                 }
@@ -34,7 +31,17 @@ public class damageController : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0))
         {
-
+            if (stateMachine.GetComponent<stateMachineController>().state.Equals("CreateDamage")) {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.transform.name.Contains("B747"))
+                    {
+                        Instantiate(damage, hit.point, new Quaternion());
+                    }
+                }
+            }
         }
 	}
 }
