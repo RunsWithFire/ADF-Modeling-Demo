@@ -17,6 +17,8 @@ public class damageController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+        // If click on Damage ball.
 		if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
@@ -28,6 +30,11 @@ public class damageController : MonoBehaviour {
                     stateMachine.GetComponent<stateMachineController>().state = "ViewDamage";
                 }
             }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+
         }
 	}
 }
