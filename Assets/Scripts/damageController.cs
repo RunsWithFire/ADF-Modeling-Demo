@@ -26,6 +26,7 @@ public class damageController : MonoBehaviour {
 	void Update () {
         moveToViewDamage();
         createDamage();
+        moveDamage();
         newDamageColorUpdate();
 	}
 
@@ -66,6 +67,26 @@ public class damageController : MonoBehaviour {
                         newDamage.transform.parent = GameObject.Find("B-747").transform;
 
                         stateMachine.GetComponent<stateMachineController>().state = "MoveDamage";
+                    }
+                }
+            }
+        }
+    }
+
+    // If the user is still creating damage, but wants to move it's location.
+    public void moveDamage()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (stateMachine.GetComponent<stateMachineController>().state.Equals("MoveDamage"))
+            {
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.transform.name.Contains("B747"))
+                    {
+                        newDamage.transform.position = hit.point;
                     }
                 }
             }
