@@ -15,17 +15,19 @@ public class EnterDamage : MonoBehaviour {
 			Text[] ButtonsText = GetComponentsInChildren<UnityEngine.UI.Text>();
 			ButtonsText[0].text = "New Damage";
 
-
-		} else {
+            stateMachine.GetComponent<stateMachineController>().state = "CreateDamage";
+            print(stateMachine.GetComponent<stateMachineController>().state);
+        } else {
 			
 			theCanvas.SetActive(true);
 			Text[] ButtonsText = GetComponentsInChildren<UnityEngine.UI.Text>();
 			ButtonsText[0].text = "Close";
 
-		}
+            stateMachine.GetComponent<stateMachineController>().state = "ViewAircraft";
+            print(stateMachine.GetComponent<stateMachineController>().state);
+        }
 
-        stateMachine.GetComponent<stateMachineController>().state = "CreateDamage";
-        print(stateMachine.GetComponent<stateMachineController>().state);
+        
     }
 
     
