@@ -40,6 +40,8 @@ public class damageController : MonoBehaviour {
                     {
                         GameObject newDamage = Instantiate(damage, hit.point, new Quaternion());
                         newDamage.transform.parent = GameObject.Find("B-747").transform;
+
+                        stateMachine.GetComponent<stateMachineController>().state = "MoveDamage";
                     }
                 }
             }

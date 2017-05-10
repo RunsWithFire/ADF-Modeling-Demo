@@ -7,7 +7,7 @@ public class EnterDamage : MonoBehaviour
 {
 
     private string NEW_DAMAGE_LABEL = "New Damage";
-    private string CLOSE_LABEL = "Close";
+    private string CLOSE_LABEL = "Complete";
     public GameObject theCanvas;
     public GameObject stateMachine;
 	private Animator slideInAnimation;
