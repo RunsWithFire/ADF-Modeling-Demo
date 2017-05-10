@@ -9,6 +9,7 @@ public class EnterDamage : MonoBehaviour
     private string NEW_DAMAGE_LABEL = "New Damage";
     private string CLOSE_LABEL = "Close";
     public GameObject theCanvas;
+    public GameObject stateMachine;
 
 
     public void onClick()
@@ -17,10 +18,12 @@ public class EnterDamage : MonoBehaviour
         if (ButtonsText[0].text == CLOSE_LABEL)
         {
             ButtonsText[0].text = NEW_DAMAGE_LABEL;
+            stateMachine.GetComponent<stateMachineController>().state = "ViewAircraft";
         }
         else
         {
             ButtonsText[0].text = CLOSE_LABEL;
+            stateMachine.GetComponent<stateMachineController>().state = "CreateDamage";
         }
     }
 }
