@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnterDamage : MonoBehaviour {
 
+    public GameObject stateMachine;
 	public GameObject theCanvas;
 
 
@@ -23,8 +24,10 @@ public class EnterDamage : MonoBehaviour {
 
 		}
 
+        stateMachine.GetComponent<stateMachineController>().state = "CreateDamage";
+        print(stateMachine.GetComponent<stateMachineController>().state);
+    }
 
-	}
-
-
+    
+    
 }
