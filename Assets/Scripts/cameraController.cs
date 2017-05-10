@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class cameraController : MonoBehaviour {
 
+    public GameObject stateMachine;
+
     public GameObject mainCamera;
     public GameObject aircraft;
 
@@ -45,9 +47,12 @@ public class cameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        rightClickFocus();
-        leftClickRotate();
-        mouseWheelZoom();
+        if (stateMachine.GetComponent<stateMachineController>().state.Equals("ViewAircraft"))
+        {
+            rightClickFocus();
+            leftClickRotate();
+            mouseWheelZoom();
+        }
     }
 
     // Rotate freely in place at a fixed speed
