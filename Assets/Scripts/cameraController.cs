@@ -5,23 +5,39 @@ using UnityEngine;
 public class cameraController : MonoBehaviour {
 
     public GameObject mainCamera;
-    public GameObject identifier;
+    public GameObject aircraft;
+    public GameObject indicator;
 
     //freeRotate
-    public float movementSpeed = 0.01f;
+    public float movementSpeed = 1.0f;
     Vector3 mouseOrigin;
     float xMotion;
     float yMotion;
     Vector3 mouseMovement;
 
     //castToMeshCollider
-    Vector3 oldHitPoint = new Vector3(0, 0, 0);
+    Vector3 oldHitPoint = new Vector3(0, -10, 0);
 
     //focusOnPoint
     Vector3 clickLocation = new Vector3(0, -10, 0);
     Vector3 direction;
     Quaternion lookRotation;
-    public float rotationSpeed = 2.0f;    
+    public float camRotationSpeed = 2.0f;
+
+    //leftClickRotate
+    public float objectRotationSpeed = 2.5f;
+
+    //mouseWheelZoom
+    Vector3 focalPoint;
+
+    //getBounds
+    public float maximumMultiplyer = 1.0f;
+    public float minimumMultiplyer = 15.0f;
+    public float zoomSpeed = 3.5f;
+    public Vector3 minimumLocation;
+    public Vector3 maximumLocation;
+    
+    // ----------------------------------------------------------------------------- //
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +47,8 @@ public class cameraController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         rightClickFocus();
+        leftClickRotate();
+        mouseWheelZoom();
     }
 
     // Rotate freely in place at a fixed speed
@@ -96,6 +114,55 @@ public class cameraController : MonoBehaviour {
     {
         direction = (point - mainCamera.transform.position).normalized;
         lookRotation = Quaternion.LookRotation(direction);
-        mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, lookRotation, Time.deltaTime * camRotationSpeed);
+    }
+
+    //Rotate Object with Left Click Hold
+    public void leftClickRotate()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            float rotX = Input.GetAxis("Mouse X") * objectRotationSpeed * Mathf.Deg2Rad;
+            float rotY = Input.GetAxis("Mouse Y") * objectRotationSpeed * Mathf.Deg2Rad;
+
+            aircraft.transform.RotateAround(Vector3.up, -rotX);
+            aircraft.transform.RotateAround(Vector3.right, -rotY);
+        }
+    }
+
+    //Zoom In and Out (within parameters) towards Focal Point
+    public void mouseWheelZoom()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f) //Roll up
+        {
+            focalPoint = clickLocation;
+            getBounds();
+
+            if (Vector3.Magnitude(mainCamera.transform.position - focalPoint) > Vector3.Magnitude(minimumLocation - focalPoint))
+            {
+                mainCamera.transform.Translate(Vector3.forward * zoomSpeed);
+            }
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f) //Roll down
+        {
+            focalPoint = clickLocation;
+            getBounds();
+
+            if (Vector3.Magnitude(mainCamera.transform.position - focalPoint) < Vector3.Magnitude(maximumLocation - focalPoint))
+            {
+                mainCamera.transform.Translate(Vector3.back * zoomSpeed);
+            }
+        }
+    }
+
+    private void getBounds()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit))
+        {
+            minimumLocation = minimumMultiplyer * Vector3.Normalize(mainCamera.transform.position - hit.point) + hit.point;
+            maximumLocation = -maximumMultiplyer * Vector3.Normalize(hit.point - mainCamera.transform.position) + mainCamera.transform.position;
+        }
     }
 }
