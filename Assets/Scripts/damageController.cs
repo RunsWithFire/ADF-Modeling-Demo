@@ -38,7 +38,8 @@ public class damageController : MonoBehaviour {
                 {
                     if (hit.transform.name.Contains("B747"))
                     {
-                        Instantiate(damage, hit.point, new Quaternion());
+                        GameObject newDamage = Instantiate(damage, hit.point, new Quaternion());
+                        newDamage.transform.parent = GameObject.Find("B-747").transform;
                     }
                 }
             }
