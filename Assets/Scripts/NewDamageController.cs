@@ -26,8 +26,8 @@ public class NewDamageController : MonoBehaviour {
 		//enable the animator component
 		anim.enabled = true;
 		//play the Slidein animation
-		anim.Play("EnterDamageSlideIn");
-		anim.SetTrigger ("EnterDamageSlideIn");
+		anim.Play("SlideDamageEntryCanvasIn");
+
 
 		//freeze the timescale
 		Time.timeScale = 0;
@@ -36,7 +36,7 @@ public class NewDamageController : MonoBehaviour {
 	public void SlideOut(){
 
 		//play the SlideOut animation
-		anim.Play("EnterDamageSlideOut");
+		anim.Play("SlideDamageEntryCanvasOut");
 		//set back the time scale to normal time scale
 		Time.timeScale = 1;
 	}
